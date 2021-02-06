@@ -6,7 +6,11 @@ class DolarExchangeRate extends Component {
   state = {
     rateSell: "",
     rateBuy: "",
-    timeNow: ""
+    timeNow: "",
+    data: [
+      {time: '06:32:11', uv: 0, pv: 400, amt: 400},
+      {time: '06:32:11', uv: 10, pv: 200, amt: 400},
+    ]
   };
 
   timeNow = () => {
@@ -30,6 +34,10 @@ class DolarExchangeRate extends Component {
     })
   }
 
+  graphUpdate = () => {
+    
+  }
+
   componentDidMount() {
     this.fetchRate();
     this.clock = setInterval(()=> {
@@ -46,7 +54,7 @@ class DolarExchangeRate extends Component {
         <p>Дані станом на {this.timeNow()}</p>
         <p>Купівля ${this.state.rateBuy}</p>
         <p>Продаж ${this.state.rateSell}</p>
-        <Graph />
+        <Graph data={this.state.data} />
       </div>
     );
   }
