@@ -3,7 +3,8 @@ import Graph from "./Graph/Graph";
 import classes from "./DolarExchangeRate.module.css";
 import CurrentExhangeRate from "./CurrentExchangeRate/CurrentExchangeRate";
 import Loader from "../UI/Loader/Loader";
-// import CurrentTime from "./CurrentTime/CurrentTime";
+import Button from "../UI/Button/Button";
+import CurrentTime from "./CurrentTime/CurrentTime";
 
 class DolarExchangeRate extends Component {
   state = {
@@ -29,7 +30,7 @@ class DolarExchangeRate extends Component {
     this.fetchRate();
     this.exchangeInterval = setInterval(() => {
       this.fetchRate();
-    }, 10000);
+    }, 30000);
   }
 
   componentWillUnmount() {
@@ -49,30 +50,31 @@ class DolarExchangeRate extends Component {
     }
 
     return (
-        <div className={classes.DolarExchangeRate}>
-          <div className={classes.DolarExchangeRateContainer}>
-            <h1 onClick={() => this.normalizeNum(this.state.rateBuy)}>
-              Найточніший фейковий курс долара !
-            </h1>
-            {/* <CurrentTime /> */}
-            <CurrentExhangeRate
-              rateSell={this.state.rateSell}
-              prevRateSell={this.state.prevRateSell}
-              rateBuy={this.state.rateBuy}
-              prevRateBuy={this.state.prevRateBuy}
-            />
-            <Graph
-              data={[
-                {
-                  name: `${new Date().toLocaleTimeString()}`,
-                  Купівля: `${this.state.rateBuy}`,
-                  Продаж: `${this.state.rateSell}`,
-                },
-              ]}
-            />
-          </div>
+      <div className={classes.DolarExchangeRate}>
+        <div className={classes.DolarExchangeRateContainer}>
+          <h1 onClick={() => this.normalizeNum(this.state.rateBuy)}>
+            Найточніший фейковий курс долара !
+          </h1>
+          <CurrentTime />
+          <CurrentExhangeRate
+            rateSell={this.state.rateSell}
+            prevRateSell={this.state.prevRateSell}
+            rateBuy={this.state.rateBuy}
+            prevRateBuy={this.state.prevRateBuy}
+          />
+          <Button clickHandler={() => this.fetchRate()} name={"Oновити !"} />
+          <Graph
+            data={[
+              {
+                name: `${new Date().toLocaleTimeString()}`,
+                Купівля: `${this.state.rateBuy}`,
+                Продаж: `${this.state.rateSell}`,
+              },
+            ]}
+          />
         </div>
-      );
+      </div>
+    );
   }
 }
 

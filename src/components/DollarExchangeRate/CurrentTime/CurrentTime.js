@@ -15,9 +15,11 @@ class CurrentTime extends Component {
   
   componentDidMount() {
     this.timer()
+    this._isMounted = true;
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     clearInterval(this.timer)
   }
 
