@@ -1,62 +1,78 @@
 import React, { Component } from "react";
 import Graph from "./Graph/Graph";
 import classes from "./DolarExchangeRate.module.css";
+import CurrentExhangeRate from "./CurrentExchangeRate/CurrentExchangeRate";
+import Loader from "../UI/Loader/Loader";
+// import CurrentTime from "./CurrentTime/CurrentTime";
 
 class DolarExchangeRate extends Component {
   state = {
-    rateSell: "",
-    rateBuy: "",
-    timeNow: "",
-    data: [
-      {time: '06:32:11', uv: 0, pv: 400, amt: 400},
-      {time: '06:32:11', uv: 10, pv: 200, amt: 400},
-    ]
+    loaderState: false,
   };
 
-  timeNow = () => {
-    const Data = new Date();
-    const Year = Data.getFullYear();
-    const Month = Data.getMonth();
-    const Day = Data.getDate();
-    const Hour = Data.getHours();
-    const Minutes = Data.getMinutes();
-    const Seconds = Data.getSeconds();
-    return `${Year}:${Month}:${Day}   ${Hour}:${Minutes}:${Seconds}`
+  fetchRate = () => {
+    fetch("https://api.ifcityevent.com/currency")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          loaderState: true,
+          rateSell: this.normalizeNum(data.rateSell),
+          rateBuy: this.normalizeNum(data.rateBuy),
+          prevRateSell: this.state.rateSell,
+          prevRateBuy: this.state.rateBuy,
+        });
+        return data;
+      });
   };
-
-  fetchRate=()=> {
-    fetch('https://api.ifcityevent.com/currency').then(res => res.json())
-    .then(data => {
-      this.setState({
-        rateSell: data.rateSell,
-        rateBuy: data.rateBuy
-      })
-    })
-  }
-
-  graphUpdate = () => {
-    
-  }
 
   componentDidMount() {
     this.fetchRate();
-    this.clock = setInterval(()=> {
-      this.setState({
-        timeNow: this.timeNow()
-      })
-    }, 1000)
+    this.exchangeInterval = setInterval(() => {
+      this.fetchRate();
+    }, 10000);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.exchangeInterval);
+  }
+
+  normalizeNum = (num) => {
+    return Number(num).toFixed(2);
+  };
+
+
   render() {
+    console.log(this.state)
+    
+    if (!this.state.loaderState) {
+        return <Loader/>;
+    }
+
     return (
-      <div className={classes.DolarExchangeRate}>
-        <h1>Найточніший курс фейковий курс долара тут !</h1>
-        <p>Дані станом на {this.timeNow()}</p>
-        <p>Купівля ${this.state.rateBuy}</p>
-        <p>Продаж ${this.state.rateSell}</p>
-        <Graph data={this.state.data} />
-      </div>
-    );
+        <div className={classes.DolarExchangeRate}>
+          <div className={classes.DolarExchangeRateContainer}>
+            <h1 onClick={() => this.normalizeNum(this.state.rateBuy)}>
+              Найточніший фейковий курс долара !
+            </h1>
+            {/* <CurrentTime /> */}
+            <CurrentExhangeRate
+              rateSell={this.state.rateSell}
+              prevRateSell={this.state.prevRateSell}
+              rateBuy={this.state.rateBuy}
+              prevRateBuy={this.state.prevRateBuy}
+            />
+            <Graph
+              data={[
+                {
+                  name: `${new Date().toLocaleTimeString()}`,
+                  Купівля: `${this.state.rateBuy}`,
+                  Продаж: `${this.state.rateSell}`,
+                },
+              ]}
+            />
+          </div>
+        </div>
+      );
   }
 }
 
