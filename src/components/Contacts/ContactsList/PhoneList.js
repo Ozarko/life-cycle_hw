@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react'
-import classes from './PhoneList.module.css'
-import ContactPerson from './ContactPerson/ContactPerson'
+import React, { useEffect } from "react";
+import classes from "./PhoneList.module.css";
+import ContactPerson from "./ContactPerson/ContactPerson";
 
-function PhoneList ({phoneData, currentContact}) {
+function PhoneList({ phoneList, currentContact }) {
   return (
     <div className={classes.PhoneList}>
       <ul>
-        {phoneData.map(contactPerson => <ContactPerson key={contactPerson.id} contactPerson={contactPerson} currentContact={currentContact}/>)}
+        {phoneList.map((contactPerson) => (
+          <ContactPerson
+            currentContact={currentContact}
+            key={contactPerson.id}
+            contactPerson={contactPerson}
+          />
+        ))}
       </ul>
     </div>
-  )
+  );
 }
 
-export default PhoneList
+export default PhoneList;

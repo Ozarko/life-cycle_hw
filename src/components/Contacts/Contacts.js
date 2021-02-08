@@ -1,53 +1,81 @@
-import classes from './Contacts.module.css'
-import React, { Component } from 'react'
-import Contact from './Contact/Contact'
-import axios from '../axios/axios'
-import PhoneList from './ContactsList/PhoneList'
-import Loader from '../UI/Loader/Loader'
+import classes from "./Contacts.module.css";
+import React, { useEffect, useState } from "react";
+import Contact from "./Contact/Contact";
+import axios from "../axios/axios";
+import PhoneList from "./ContactsList/PhoneList";
 
-class Contacts extends Component {
-  state = {
-    loaderState: false,
-    phoneData: [],
-    currentContact: ''
-  }
+// class Contacts extends Component {
+//   state = {
+//     loaderState: false,
+//     phoneData: [],
+//     currentContact: ''
+//   }
 
-  getPhonelist = async (id) => {
-    const url = id ? `/phonelist/${id}` : '/phonelist/'
-    const responce = await axios.get(url)
-    return responce.data
-  }
+//   getPhonelist = async (id) => {
+//     const url = id ? `/phonelist/${id}` : '/phonelist/'
+//     const responce = await axios.get(url)
+//     return responce.data
+//   }
 
-  componentDidMount() {
-    const phonelist = this.getPhonelist()
-    phonelist.then(phoneData => {
-      this.setState({
-        loaderState: true,
-        phoneData,
-        currentContact: phoneData[0]
-      })
-    })
-  }
+//   componentDidMount() {
+//     const phonelist = this.getPhonelist()
+//     console.log(phonelist)
+//     phonelist.then(phoneData => {
+//       this.setState({
+//         loaderState: true,
+//         phoneData,
+//         currentContact: phoneData[0]
+//       })
+//     })
+//   }
 
-  
+//   componentDidUpdate() {
+//   }
 
-  componentDidUpdate() {
-  }
+//   render() {
+//   if(!this.state.loaderState) {
+//     return <Loader/>
+//   }
+//   return (
+//     <div className={classes.Contacts}>
+//       <div className={classes.ContactBox}>
+//         <PhoneList setCurrentContact={this.setCurrentContact} phoneData={this.state.phoneData} currentContact={this.state.currentContact}/>
+//         <Contact currentContact={this.state.currentContact} />
+//       </div>
+//     </div>
+//   )
+// }
 
-  render() {
-  if(!this.state.loaderState) {
-    return <Loader/>
-  }
+// }
+
+function Contacts() {
+  const [loader, setLoader] = useState(false);
+  const [phoneList, setPhoneList] = useState([]);
+  const [currentContact, setCurrentContact] = useState({});
+
+  const getPhonelist = async (id) => {
+    const url = id ? `/phonelist/${id}` : "/phonelist/";
+    const responce = await axios.get(url);
+    return responce.data;
+  };
+
+
+  useEffect(()=> {
+    async function getPhonelistData() {
+      setPhoneList(await getPhonelist())
+    }
+    getPhonelistData()
+  },[])
+
+  console.log(phoneList)
   return (
     <div className={classes.Contacts}>
-      <div className={classes.ContactBox}>
-        <PhoneList phoneData={this.state.phoneData} currentContact={this.state.currentContact}/>
-        <Contact currentContact={this.state.currentContact} />
-      </div>
+      {/* <div className={classes.ContactBox}>
+        <PhoneList phoneList={phoneList} currentContact={currentContact} />
+        <Contact/>
+      </div> */}
     </div>
-  )
+  );
 }
 
-}
-
-export default Contacts
+export default Contacts;
