@@ -62,7 +62,9 @@ function Contacts() {
 
   useEffect(()=> {
     async function getPhonelistData() {
-      setPhoneList(await getPhonelist())
+      const phoneListData = await getPhonelist()
+      setPhoneList(phoneListData)
+      setCurrentContact(phoneListData[0])
       setLoader(true)
     }
     getPhonelistData()
