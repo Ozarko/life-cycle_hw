@@ -1,14 +1,13 @@
 import classes from "./ExchangeRate.module.css";
 
 const ExchangeRate = ({ name, rate, prevRate }) => {
-
-  const classesArr = ['fas', classes.ExchangeRateIcon];
-  if(rate > prevRate) {
+  const classesArr = ["fas", classes.ExchangeRateIcon];
+  if (rate > prevRate) {
     classesArr.push("fa-arrow-up", classes.up);
-  }else {
+  } else {
     classesArr.push("fa-arrow-down", classes.down);
   }
-  
+
   return (
     <div className={classes.ExchangeRate}>
       <i className={classesArr.join(" ")}>
@@ -22,7 +21,5 @@ const ExchangeRate = ({ name, rate, prevRate }) => {
       <h3>{name}</h3>
     </div>
   );
-}
-;
-
-export default ExchangeRate
+};
+export default ExchangeRate;

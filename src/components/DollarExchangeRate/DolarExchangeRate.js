@@ -5,6 +5,7 @@ import CurrentExhangeRate from "./CurrentExchangeRate/CurrentExchangeRate";
 import Loader from "../UI/Loader/Loader";
 import Button from "../UI/Button/Button";
 import CurrentTime from "./CurrentTime/CurrentTime";
+import { normalizeNum } from "./auxiliary/auxiliary";
 
 class DolarExchangeRate extends Component {
   state = {
@@ -17,8 +18,8 @@ class DolarExchangeRate extends Component {
       .then((data) => {
         this.setState({
           loaderState: true,
-          rateSell: this.normalizeNum(data.rateSell),
-          rateBuy: this.normalizeNum(data.rateBuy),
+          rateSell: normalizeNum(data.rateSell),
+          rateBuy: normalizeNum(data.rateBuy),
           prevRateSell: this.state.rateSell,
           prevRateBuy: this.state.rateBuy,
         });
@@ -30,29 +31,24 @@ class DolarExchangeRate extends Component {
     this.fetchRate();
     this.exchangeInterval = setInterval(() => {
       this.fetchRate();
-    }, 30000);
+    }, 10000);
   }
 
   componentWillUnmount() {
     clearInterval(this.exchangeInterval);
   }
 
-  normalizeNum = (num) => {
-    return Number(num).toFixed(2);
-  };
-
-
   render() {
-    console.log(this.state)
-    
+    console.log(this.state);
+
     if (!this.state.loaderState) {
-        return <Loader/>;
+      return <Loader />;
     }
 
     return (
       <div className={classes.DolarExchangeRate}>
         <div className={classes.DolarExchangeRateContainer}>
-          <h1 onClick={() => this.normalizeNum(this.state.rateBuy)}>
+          <h1>
             Найточніший фейковий курс долара !
           </h1>
           <CurrentTime />

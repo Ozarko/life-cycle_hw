@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import {  CartesianGrid, XAxis, YAxis, Tooltip, AreaChart, Area, LineChart, Line } from 'recharts';
+import React, { useEffect, useState } from "react";
+import {
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  AreaChart,
+  Area,
+  LineChart,
+  Line,
+} from "recharts";
 
 const Graph = ({ data }) => {
   const [dataArr, setDataArr] = useState(data);
 
+  useEffect(() => {
+    setDataArr([...dataArr, ...data]);
 
-  useEffect(()=> {
-
-    setDataArr(
-    [...dataArr, ...data]
-    )
-
-    if(dataArr.length >= 10) {
-      dataArr.shift()
-      setDataArr(
-        dataArr
-      )
+    if (dataArr.length >= 10) {
+      dataArr.shift();
+      setDataArr(dataArr);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <AreaChart
       width={1100}
       height={250}
       data={dataArr}
-      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+      margin={{ top: 30, right: 30, left: 0, bottom: 0 }}
     >
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -58,4 +61,4 @@ const Graph = ({ data }) => {
   );
 };
 
-export default Graph
+export default Graph;
