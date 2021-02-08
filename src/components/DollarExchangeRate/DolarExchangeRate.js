@@ -43,7 +43,6 @@ class DolarExchangeRate extends Component {
 
 
   render() {
-    console.log(this.state)
     
     if (!this.state.loaderState) {
         return <Loader/>;

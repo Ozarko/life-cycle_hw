@@ -26,7 +26,7 @@ class Drawer extends Component {
     const links = [
       { to: "/", label: "ГОЛОВНА", exact: true },
       { to: "/dolar_exchange_rate", label: "КУРС ДОЛАРА", exact: false },
-      { to: "/SecondTask", label: "ЗАВДАННЯ №2", exact: false },
+      { to: "/contacts", label: "КОНТАКТИ", exact: false },
     ];
 
     return (
