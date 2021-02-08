@@ -63,17 +63,17 @@ function Contacts() {
   useEffect(()=> {
     async function getPhonelistData() {
       setPhoneList(await getPhonelist())
+      setLoader(true)
     }
     getPhonelistData()
   },[])
 
-  console.log(phoneList)
   return (
     <div className={classes.Contacts}>
-      {/* <div className={classes.ContactBox}>
+      <div className={classes.ContactBox}>
         <PhoneList phoneList={phoneList} currentContact={currentContact} />
         <Contact/>
-      </div> */}
+      </div>
     </div>
   );
 }
