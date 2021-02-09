@@ -22,8 +22,8 @@ class DolarExchangeRate extends Component {
           rateBuy: normalizeNum(data.rateBuy),
           prevRateSell: this.state.rateSell,
           prevRateBuy: this.state.rateBuy,
+          
         });
-        return data;
       });
   };
 
@@ -39,10 +39,8 @@ class DolarExchangeRate extends Component {
   }
 
   render() {
-    console.log(this.state);
-
     if (!this.state.loaderState) {
-      return <Loader />;
+      return <Loader width={'100vw'} height={'100vh'} />;
     }
 
     return (

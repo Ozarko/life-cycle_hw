@@ -1,8 +1,15 @@
 import classes from "./Loader.module.css";
 
-function Loader() {
+function Loader({ width, height, background }) {
   return (
-    <div className={classes.LoaderParent}>
+    <div
+      style={{
+        width: `${width}`,
+        height: `${height}`,
+        background: `${background}`,
+      }}
+      className={classes.LoaderParent}
+    >
       <div className={classes.Loader}>
         <div></div>
       </div>

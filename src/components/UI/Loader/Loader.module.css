@@ -1,10 +1,7 @@
 .LoaderParent {
   position: relative;
-  width: 100vw;
-  height: 100vh;
   background: #0d1b2a;
 }
-
 
 .Loader, 
 .Loader::before, 

@@ -1,38 +1,30 @@
-import React, { Component } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import classes from "./CurrentTime.module.css";
 
-class CurrentTime extends Component {
-  state = {
-    currentTime: new Date(),
+function CurrentTime() {
+  const [time, setTime] = useState(new Date())
+
+  const timer = () => {
+    setInterval(() => {
+      setTime(new Date());
+    }, 1000);
   };
 
-  timer = () =>
-    setInterval(() => {
-      this.setState({
-        currentTime: new Date(),
-      });
-    }, 1000);
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted) {
+      timer();
+    }
+    return ()=> {isMounted = false}
+  },[]);
 
-  componentDidMount() {
-    this.timer();
-    this._isMounted = true;
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-    clearInterval(this.timer);
-  }
-
-  render() {
-    return (
-      <div className={classes.CurrentTime}>
-        <h5>
-          Станом на {this.state.currentTime.toLocaleDateString()}{" "}
-          {this.state.currentTime.toLocaleTimeString()} .
-        </h5>
-      </div>
-    );
-  }
+  return (
+    <div className={classes.CurrentTime}>
+      <h5>
+        Станом на {time.toLocaleDateString()} {time.toLocaleTimeString()} .
+      </h5>
+    </div>
+  );
 }
 
 export default CurrentTime;
