@@ -6,8 +6,8 @@
   text-align: center;
   text-transform: uppercase;
   border-bottom: 1px solid #3498db;
-  cursor: pointer;
   transition: all 0.25s ease-in;
+  cursor: pointer;
 }
 
 .ContactPerson:hover {
